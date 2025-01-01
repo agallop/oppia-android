@@ -112,7 +112,8 @@ class StateFragmentPresenter @Inject constructor(
     topicId: String,
     storyId: String,
     explorationId: String,
-    userAnswerState: UserAnswerState
+    userAnswerState: UserAnswerState,
+    hasPreviousAnswersExpanded: Boolean
   ): View? {
     profileId = ProfileId.newBuilder().setInternalId(internalProfileId).build()
     this.topicId = topicId
@@ -129,7 +130,8 @@ class StateFragmentPresenter @Inject constructor(
       assemblerBuilderFactory.create(resourceBucketName, entityType, profileId, userAnswerState),
       binding.congratulationsTextView,
       binding.congratulationsTextConfettiView,
-      binding.fullScreenConfettiView
+      binding.fullScreenConfettiView,
+      hasPreviousAnswersExpanded
     )
 
     val stateRecyclerViewAdapter = recyclerViewAssembler.adapter
@@ -234,7 +236,8 @@ class StateFragmentPresenter @Inject constructor(
     builder: StatePlayerRecyclerViewAssembler.Builder,
     congratulationsTextView: TextView,
     congratulationsTextConfettiView: KonfettiView,
-    fullScreenConfettiView: KonfettiView
+    fullScreenConfettiView: KonfettiView,
+    hasPreviousAnswersExpanded: Boolean
   ): StatePlayerRecyclerViewAssembler {
     val isTablet = context.resources.getBoolean(R.bool.isTablet)
     return builder
@@ -262,6 +265,7 @@ class StateFragmentPresenter @Inject constructor(
         this::getAudioUiManager
       )
       .addConceptCardSupport()
+      .hasPreviousAnswersExpanded(hasPreviousAnswersExpanded)
       .build()
   }
 
@@ -398,6 +402,10 @@ class StateFragmentPresenter @Inject constructor(
   /** Returns the [UserAnswerState] representing the user's current pending answer. */
   fun getUserAnswerState(): UserAnswerState {
     return stateViewModel.getUserAnswerState(recyclerViewAssembler::getPendingAnswerHandler)
+  }
+
+  fun hasPreviousAnswersExpanded(): Boolean {
+    return recyclerViewAssembler.hasPreviousResponsesExpanded()
   }
 
   /** Helper for subscribeToAnswerOutcome. */

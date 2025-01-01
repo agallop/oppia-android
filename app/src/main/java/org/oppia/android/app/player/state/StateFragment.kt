@@ -2,6 +2,7 @@ package org.oppia.android.app.player.state
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +46,10 @@ class StateFragment :
 
     /** Arguments key for StateFragment saved state. */
     const val STATE_FRAGMENT_STATE_KEY = "StateFragment.state"
+
+    /** Arguments key for StateFragment saved state. */
+    const val STATE_FRAGMENT_PREVIOUS_ANSWERS_EXPANDED_KEY =
+      "StateFragment.hasPreviousAnswerExpanded"
 
     /**
      * Creates a new instance of a StateFragment.
@@ -96,6 +101,9 @@ class StateFragment :
       UserAnswerState.getDefaultInstance()
     ) ?: UserAnswerState.getDefaultInstance()
 
+    val hasPreviousAnswersExpanded = savedInstanceState?.getBoolean(
+      STATE_FRAGMENT_PREVIOUS_ANSWERS_EXPANDED_KEY, false)?: false
+
     val internalProfileId = args?.internalProfileId ?: -1
     val topicId = args?.topicId!!
     val storyId = args.storyId!!
@@ -108,7 +116,8 @@ class StateFragment :
       topicId,
       storyId,
       explorationId,
-      userAnswerState
+      userAnswerState,
+      hasPreviousAnswersExpanded
     )
   }
 
@@ -170,5 +179,8 @@ class StateFragment :
       STATE_FRAGMENT_STATE_KEY,
       stateFragmentPresenter.getUserAnswerState()
     )
+    outState.putBoolean(
+      STATE_FRAGMENT_PREVIOUS_ANSWERS_EXPANDED_KEY,
+      stateFragmentPresenter.hasPreviousAnswersExpanded())
   }
 }

@@ -145,21 +145,15 @@ class StatePlayerRecyclerViewAssembler private constructor(
   private val hasConversationView: Boolean,
   private val resourceHandler: AppLanguageResourceHandler,
   private val translationController: TranslationController,
-  private var userAnswerState: UserAnswerState
+  private var userAnswerState: UserAnswerState,
+  private var hasPreviousResponsesExpanded: Boolean
 ) : HtmlParser.CustomOppiaTagActionListener {
   /**
-   * A list of view models corresponding to past view models that are hidden by default. These are
-   * intentionally not retained upon configuration changes since the user can just re-expand the
-   * list. Note that the first element of this list (when initialized), will always be the previous
-   * answers header to help locate the items in the recycler view (when present).
+   * A list of view models corresponding to past view models that are hidden by default. Note that
+   * the first element of this list (when initialized), will always be the previous answers header
+   * to help locate the items in the recycler view (when present).
    */
   private val previousAnswerViewModels: MutableList<StateItemViewModel> = mutableListOf()
-
-  /**
-   * Whether the previously submitted wrong answers should be expanded. This value is intentionally
-   * not retained upon configuration changes since the user can just re-expand the list.
-   */
-  private var hasPreviousResponsesExpanded: Boolean = false
 
   private val lifecycleSafeTimerFactory = LifecycleSafeTimerFactory(backgroundCoroutineDispatcher)
 
@@ -894,6 +888,10 @@ class StatePlayerRecyclerViewAssembler private constructor(
     return itemList.findLast { it is InteractionAnswerHandler } as? InteractionAnswerHandler
   }
 
+  fun hasPreviousResponsesExpanded() : Boolean {
+    return hasPreviousResponsesExpanded
+  }
+
   /**
    * Builder to construct new [StatePlayerRecyclerViewAssembler]s in a way that allows granular
    * control over the features enabled by the assembler. Instances of this class should be created
@@ -941,6 +939,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
         proxyListener?.onConceptCardLinkClicked(view, skillId)
       }
     }
+    private var hasPreviousAnswersExpanded: Boolean = false;
 
     /** Adds support for displaying state content to the learner. */
     fun addContentSupport(): Builder {
@@ -1371,6 +1370,12 @@ class StatePlayerRecyclerViewAssembler private constructor(
       return this
     }
 
+    fun hasPreviousAnswersExpanded(hasPreviousAnswersExpanded: Boolean) : Builder {
+      this.hasPreviousAnswersExpanded = hasPreviousAnswersExpanded
+      return this;
+
+    }
+
     /**
      * Returns a new [StatePlayerRecyclerViewAssembler] based on the builder-specified
      * configuration.
@@ -1400,7 +1405,8 @@ class StatePlayerRecyclerViewAssembler private constructor(
         hasConversationView,
         resourceHandler,
         translationController,
-        userAnswerState
+        userAnswerState,
+        hasPreviousAnswersExpanded
       )
       if (playerFeatureSet.conceptCardSupport) {
         customTagListener.proxyListener = assembler
