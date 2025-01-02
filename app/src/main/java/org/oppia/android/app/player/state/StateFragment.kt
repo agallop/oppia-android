@@ -2,7 +2,6 @@ package org.oppia.android.app.player.state
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -102,7 +101,8 @@ class StateFragment :
     ) ?: UserAnswerState.getDefaultInstance()
 
     val hasPreviousAnswersExpanded = savedInstanceState?.getBoolean(
-      STATE_FRAGMENT_PREVIOUS_ANSWERS_EXPANDED_KEY, false)?: false
+      STATE_FRAGMENT_PREVIOUS_ANSWERS_EXPANDED_KEY, false
+    ) ?: false
 
     val internalProfileId = args?.internalProfileId ?: -1
     val topicId = args?.topicId!!
@@ -181,6 +181,7 @@ class StateFragment :
     )
     outState.putBoolean(
       STATE_FRAGMENT_PREVIOUS_ANSWERS_EXPANDED_KEY,
-      stateFragmentPresenter.hasPreviousAnswersExpanded())
+      stateFragmentPresenter.hasPreviousAnswersExpanded()
+    )
   }
 }

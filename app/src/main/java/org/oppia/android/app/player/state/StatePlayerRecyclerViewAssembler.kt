@@ -888,7 +888,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
     return itemList.findLast { it is InteractionAnswerHandler } as? InteractionAnswerHandler
   }
 
-  fun hasPreviousResponsesExpanded() : Boolean {
+  fun hasPreviousResponsesExpanded(): Boolean {
     return hasPreviousResponsesExpanded
   }
 
@@ -939,7 +939,7 @@ class StatePlayerRecyclerViewAssembler private constructor(
         proxyListener?.onConceptCardLinkClicked(view, skillId)
       }
     }
-    private var hasPreviousAnswersExpanded: Boolean = false;
+    private var hasPreviousAnswersExpanded: Boolean = false
 
     /** Adds support for displaying state content to the learner. */
     fun addContentSupport(): Builder {
@@ -1370,10 +1370,9 @@ class StatePlayerRecyclerViewAssembler private constructor(
       return this
     }
 
-    fun hasPreviousAnswersExpanded(hasPreviousAnswersExpanded: Boolean) : Builder {
+    fun hasPreviousAnswersExpanded(hasPreviousAnswersExpanded: Boolean): Builder {
       this.hasPreviousAnswersExpanded = hasPreviousAnswersExpanded
-      return this;
-
+      return this
     }
 
     /**
