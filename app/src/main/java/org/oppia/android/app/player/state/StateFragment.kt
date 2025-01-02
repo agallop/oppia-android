@@ -43,10 +43,10 @@ class StateFragment :
     /** Arguments key for StateFragment. */
     const val STATE_FRAGMENT_ARGUMENTS_KEY = "StateFragment.arguments"
 
-    /** Arguments key for StateFragment saved state. */
+    /** State key for StateFragment saved state. */
     const val STATE_FRAGMENT_STATE_KEY = "StateFragment.state"
 
-    /** Arguments key for StateFragment saved state. */
+    /** Previous answers Expanded key for StateFragment saved state. */
     const val STATE_FRAGMENT_PREVIOUS_ANSWERS_EXPANDED_KEY =
       "StateFragment.hasPreviousAnswerExpanded"
 
